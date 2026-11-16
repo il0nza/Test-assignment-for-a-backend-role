@@ -58,10 +58,20 @@ int main() {
       {"Настя", "Дима"}, {"Дима", "Маша"}
     };
 
+    
+    std::string name1, name2;
+    std::cout << "Доступные имена: Ваня, Лёша, Катя, Вова, Лена, Оля, Петя, Стёпа, Настя, Дима, Маша" << std::endl;
+    std::cout << "Введите первое имя: ";
+    std::cin >> name1;
+    std::cout << "Введите второе имя: ";
+    std::cin >> name2;
 
-    std::cout << std::boolalpha;
-    std::cout << "Петя и Стёпа знакомы? " << check_relation(net, "Петя", "Стёпа") << "\n";
-    std::cout << "Ваня и Дима знакомы? " << check_relation(net, "Ваня", "Дима") << "\n";
-    std::cout << "Вова и Лена знакомы? " << check_relation(net, "Вова", "Лена") << "\n";
-    return 0;
+    if (check_relation(net, name1, name2)) {
+        std::cout << "Да, они связаны через друзей!\n";
+    }
+    else {
+        std::cout << "Нет, связи между ними нет.\n";
+    }
+
+    return 0;   
 }
