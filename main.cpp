@@ -5,15 +5,21 @@
 #include <set>
 #include <queue>
 #include <Windows.h>
+#include "Input.h"
 
 
-bool check_relation(const std::vector<std::pair<std::string, std::string>>& net, const std::string& first, const std::string& second) {
+bool check_relation(const std::vector<std::pair<std::string, std::string>>& net, std::string& first, std::string& second) {
+    first = Input::toLower(first);
+    second = Input::toLower(second);
 
     // граф (список смежности)
     std::map<std::string, std::set<std::string>> graph;
     for (const auto& edge : net) {
-        graph[edge.first].insert(edge.second);
-        graph[edge.second].insert(edge.first);
+        std::string u1 = Input::toLower(edge.first);
+        std::string u2 = Input::toLower(edge.second);
+
+        graph[u1].insert(u2);
+        graph[u2].insert(u1);
     }
 
     // если кого-то из пользователей нет в графе
@@ -50,6 +56,8 @@ bool check_relation(const std::vector<std::pair<std::string, std::string>>& net,
 int main() {
     SetConsoleOutputCP(1251);
     SetConsoleCP(1251);
+    setlocale(LC_ALL, "Russian");
+
     std::vector<std::pair<std::string, std::string>> net = {
       {"Ваня", "Лёша"}, {"Лёша", "Катя"},
       {"Ваня", "Катя"}, {"Вова", "Катя"},
@@ -57,20 +65,17 @@ int main() {
       {"Стёпа", "Оля"}, {"Оля", "Настя"},
       {"Настя", "Дима"}, {"Дима", "Маша"}
     };
-
-    
-    std::string name1, name2;
+        
     std::cout << "Доступные имена: Ваня, Лёша, Катя, Вова, Лена, Оля, Петя, Стёпа, Настя, Дима, Маша" << std::endl;
-    std::cout << "Введите первое имя: ";
-    std::cin >> name1;
-    std::cout << "Введите второе имя: ";
-    std::cin >> name2;
+    
+    std::string name1 = Input::readString("Первое имя: ");
+    std::string name2 = Input::readString("Второе имя: ");
 
     if (check_relation(net, name1, name2)) {
-        std::cout << "Да, они связаны через друзей!\n";
+        std::cout << "Связь есть!\n";
     }
     else {
-        std::cout << "Нет, связи между ними нет.\n";
+        std::cout << "Связи нет.\n";
     }
 
     return 0;   
