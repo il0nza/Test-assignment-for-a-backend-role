@@ -4,10 +4,11 @@
 #include <map>
 #include <set>
 #include <queue>
+#include <cassert>
 #include <Windows.h>
 #include "Input.h"
 
-bool check_relation(const std::vector<std::pair<std::string, std::string>>& net, std::string& first, std::string& second) {
+bool check_relation(const std::vector<std::pair<std::string, std::string>>& net, std::string first, std::string second) {
     first = Input::toLower(first);
     second = Input::toLower(second);
 
@@ -81,7 +82,21 @@ int main() {
       {"Настя", "Дима"}, {"Дима", "Маша"}
     };
         
-    std::cout << "Доступные имена: Ваня, Лёша, Катя, Вова, Лена, Оля, Петя, Стёпа, Настя, Дима, Маша" << std::endl;
+
+    // 1. Сначала прогоняем обязательные автотесты из условия задачи
+    int passedTests = 0;
+
+    assert(check_relation(net, "Петя", "Стёпа") == true); passedTests++;
+    assert(check_relation(net, "Маша", "Петя") == true); passedTests++;
+    assert(check_relation(net, "Ваня", "Дима") == false); passedTests++;
+    assert(check_relation(net, "Лёша", "Настя") == false); passedTests++;
+    assert(check_relation(net, "Стёпа", "Маша") == true); passedTests++;
+    assert(check_relation(net, "Лена", "Маша") == false); passedTests++;
+    assert(check_relation(net, "Вова", "Лена") == true); passedTests++;
+
+    std::cout << "Автотесты успешно пройдены! Количество пройденных тестов: " << passedTests << std::endl;
+
+    std::cout << "\nДоступные имена: Ваня, Лёша, Катя, Вова, Лена, Оля, Петя, Стёпа, Настя, Дима, Маша" << std::endl;
     
     std::string name1 = readValidName(net, "Первое имя: ");
     std::string name2 = readValidName(net, "Второе имя: ");
